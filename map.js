@@ -1,4 +1,4 @@
-function map (board, rows, cols, empty) {
+function map (board, rows, cols) {
   for (var i = 0; i < rows; i++) {
     board.push([]);
     board[i].push(new Array(cols));
