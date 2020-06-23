@@ -1,12 +1,22 @@
-const MINE = String.fromCharCode(1758);
-const FLAG = String.fromCharCode(55298);
-const EMPTY = String.fromCharCode(68181);
+var term = require('terminal-kit').terminal;
 
-/* for (i = 0; i < 5000; i++) {
-  console.log(String.fromCharCode(i));
-} */
-/* console.log(String.fromCharCode(1758));
-console.log(String.fromCharCode(55298));
-console.log(String.fromCharCode(68181));
-*/
-console.log(MINE + ' ' + FLAG + EMPTY);
+function terminate () {
+  term.grabInput(false);
+  setTimeout(function () { process.exit(); }, 100);
+}
+
+term.grabInput({ mouse: 'button' });
+
+term.on('key', function (name, matches, data) {
+  console.log("'key' event:", name);
+  if (name === 'CTRL_C') { terminate(); }
+});
+
+term.on('mouse', function (name, data) {
+  console.log("'mouse' event:", data.x, data.y);
+  if (data.x >= 10) {
+    console.log('x >= 10');
+    term.clear();
+    // term.grabInput(false);
+  }
+});

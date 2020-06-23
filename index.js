@@ -1,127 +1,14 @@
 const readlineSync = require('readline-sync');
+const term = require('terminal-kit').terminal;
+const table = require('table');
 const matrix = require('./matrix');
 const ENUM = require('./enums');
 const generatemines = require('./generateMines');
 const countmines = require('./countMines');
 const numbers = require('./numbers');
 const map = require('./map');
-// const click = require('./click');
 
-/* function matrix (arr, value) {
-  // Creates all lines:
-  for (var i = 0; i < ROWS; i++) {
-    // Creates an empty line
-    arr.push([]);
-    // Adds cols to the empty line:
-    arr[i].push(new Array(COLS));
-    for (var j = 0; j < COLS; j++) {
-      // Initializes:
-      arr[i][j] = '0';
-      for (let k = 9; k < value.length; k++) {
-        if (value[k].x === i && value[k].y === j) {
-          arr[i][j] = '*';
-        }
-      }
-    }
-  }
-  // return arr;
-}
-*/
-/*
-function generateMines (start) {
-  let count = 0;
-  const mines = Array(0);
-  for (let i = -1; i < 2; i++) {
-    for (let j = -1; j < 2; j++) {
-      mines.push({ x: start.x + i, y: start.y + j });
-    }
-  }
-  // mines.push(start); // ide kattint először a játékos
-  console.log('Kezdés: X = ' + (start.y + 1) + ' Y = ' + (start.x + 1));
-  while (count < Math.floor(ROWS * COLS * 1 / 5)) {
-    const x = Math.floor(Math.random() * 10);
-    const y = Math.floor(Math.random() * 10);
-    let include = 0;
-    for (let i = 0; i < mines.length; i++) {
-      if (mines[i].x === x && mines[i].y === y) {
-        include++;
-        // console.log(include);
-      }
-    }
-    if (include === 0) {
-      mines.push({ x, y });
-      // console.log({ x, y });
-      count++;
-    }
-  }
-  return mines;
-}
-*/
-/*
-function countMines (arr) {
-  let count = 0;
-  for (let i = 0; i < arr.length; i++) {
-    for (let j = 0; j < arr[i].length; j++) {
-      if (arr[i][j] === '*') {
-        count++;
-      }
-    }
-  }
-  return count;
-}
-*/
-/*
-function numbers (arr) {
-  for (let i = 0; i < arr.length; i++) {
-    for (let j = 0; j < arr[i].length; j++) {
-      let number = 0;
-      if (i - 1 >= 0 && j - 1 >= 0 && arr[i - 1][j - 1] === '*') {
-        number++;
-      }
-      if (j - 1 >= 0 && arr[i][j - 1] === '*') {
-        number++;
-      }
-      if (j - 1 >= 0 && i + 1 < arr.length && arr[i + 1][j - 1] === '*') {
-        number++;
-      }
-      if (i - 1 >= 0 && arr[i - 1][j] === '*') {
-        number++;
-      }
-      if (i + 1 < arr.length && arr[i + 1][j] === '*') {
-        number++;
-      }
-      if (i - 1 >= 0 && arr[i - 1][j + 1] === '*') {
-        number++;
-      }
-      if (arr[i][j + 1] === '*') {
-        number++;
-      }
-      if (i + 1 < arr.length && arr[i + 1][j + 1] === '*') {
-        number++;
-      }
-      if (number !== 0 && arr[i][j] !== '*') {
-        arr[i][j] = '' + number + '';
-      }
-    }
-  }
-}
-*/
-/*
-function map (board) {
-  for (var i = 0; i < ROWS; i++) {
-    board.push([]);
-    board[i].push(new Array(COLS));
-    for (var j = 0; j < COLS; j++) {
-      // Initializes:
-      board[i][j] = EMPTY;
-    }
-  }
-}
-*/
 function click (board, arr, clicked) {
-  // console.log(irany);
-  // console.log(clickedField.x, clickedField.y);
-  // console.log(board[clicked.x][clicked.y]);
   if (clicked.x >= 0 && clicked.y >= 0 && clicked.x < ROWS && clicked.y < COLS) {
     if (clickedStatus === 'rightClick') {
       board[clicked.x][clicked.y] = FLAG;
@@ -188,7 +75,10 @@ function click (board, arr, clicked) {
   }
 }
 
-// const MINE = String.fromCharCode(1758);
+function terminate () {
+  term.grabInput(false);
+  setTimeout(function () { process.exit(); }, 100);
+}
 
 const FLAG = String.fromCharCode(55298);
 const EMPTY = String.fromCharCode(68181);
@@ -199,36 +89,76 @@ const board = [];
 
 const clickedStatus = 'leftClick';
 const clickedField = { x: 0, y: 0 };
-const y = readlineSync.questionInt('x koordináta: ');
-clickedField.y = y - 1;
-const x = readlineSync.questionInt('y koordináta: ');
-clickedField.x = x - 1;
-let gameOver = false;
-// let irany = 'sehova';
-// console.log('Akna darabszám: ' + mineCount);
+// const field = { x: 0, y: 0 };
+/*
+term.grabInput({ mouse: 'button' });
 
-// console.log(matrix(row, col, generateMines(row, col)));
-// countMines(matrix(row, col, generateMines(row, col)));
-const mineAmount = generatemines.generateMines(clickedField, ENUM.mineAmount);
-matrix.matrix(arr, mineAmount, ENUM.ROWS, ENUM.COLS);
-// console.log(arr);
-console.log('Akna db: ' + countmines.countMines(arr));
-numbers.numbers(arr);
-// console.log(arr);
-map.map(board, ROWS, COLS);
-// console.log(board);
-click(board, arr, clickedField);
-console.log(board);
+term.on('key', function (name, matches, data) {
+  console.log("'key' event:", name);
+  if (name === 'CTRL_C') { terminate(); }
+});
+
+term.on('mouse', function (name, data) {
+  console.log("'mouse' event:", data.x, data.y);
+  field.y = data.y;
+  field.x = data.x;
+  term.grabInput(false);
+});
+*/
+let gameOver = false;
+let lose = false;
+term.clear();
+let started = 0;
+
 while (!gameOver) {
+  if (started === 0) {
+    map.map(board, ROWS, COLS);
+    console.log(table.table(board));
+    /*
+      term.grabInput({ mouse: 'button' });
+      // console.log('valami1');
+      term.on('key', function (name, matches, data) {
+        console.log("'key' event:", name);
+        if (name === 'CTRL_C') { terminate(); }
+      });
+      // console.log('valami2');
+      term.on('mouse', function (name, data) {
+        console.log("'mouse' event:", data.x, data.y);
+        clickedField.y = data.y;
+        clickedField.x = data.x;
+        term.grabInput(false);
+      });
+      */
+    // console.log(field);
+    const y = readlineSync.questionInt('x koordináta: ');
+    clickedField.y = y - 1;
+    const x = readlineSync.questionInt('y koordináta: ');
+    clickedField.x = x - 1;
+
+    term.clear();
+
+    const mineAmount = generatemines.generateMines(clickedField, ENUM.mineAmount);
+    matrix.matrix(arr, mineAmount, ENUM.ROWS, ENUM.COLS);
+    numbers.numbers(arr);
+    click(board, arr, clickedField);
+    console.log(table.table(board));
+
+    started++;
+  }
+  // console.log(field);
   const y = readlineSync.questionInt('x koordináta: ');
   clickedField.y = y - 1;
   const x = readlineSync.questionInt('y koordináta: ');
   clickedField.x = x - 1;
+  term.clear();
   click(board, arr, clickedField);
-  console.log(board);
+  console.log(table.table(board));
+
   if (arr[clickedField.x][clickedField.y] === '*') {
     gameOver = true;
-    console.log(arr);
+    lose = true;
+    term.clear();
+    console.log(table.table(arr));
     console.log('Vesztettél!!!');
   }
   let counter = 0;
@@ -239,9 +169,10 @@ while (!gameOver) {
       }
     }
   }
-  if (counter === ENUM.mineAmount) {
+  if (counter === ENUM.mineAmount && lose === false) {
     gameOver = true;
-    console.log(arr);
+    term.clear();
+    console.log(table.table(arr));
     console.log('Győztél!!!');
   }
 }
