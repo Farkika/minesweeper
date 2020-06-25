@@ -9,6 +9,19 @@ const generatemines = require('./generateMines');
 const numbers = require('./numbers');
 const map = require('./map');
 const text = require('./text');
+const difficulty = require('./difficulty');
+
+/* async function init () {
+  console.log(1);
+  await sleep(1000);
+  console.log(2);
+} */
+
+function sleep (ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
 
 function click (board, arr, clicked) {
   if (clicked.x >= 0 && clicked.y >= 0 && clicked.x < ENUM.ROWS && clicked.y < ENUM.COLS) {
@@ -87,8 +100,13 @@ const board = [];
 let clickedStatus = 'leftClick';
 const clickedField = { x: 0, y: 0 };
 let lose = false;
-let started = 0;
+let started = -1;
+term.clear();
 
+text.minesweeper();
+text.menu();
+
+// difficulty.diff('hard');
 // text.minesweeper();
 
 term.grabInput({ mouse: 'button' });
@@ -97,22 +115,18 @@ term.on('key', function (name, matches, data) {
   if (name === 'CTRL_C') { terminate(); }
 });
 
-term.clear();
-map.map(board, ENUM.ROWS, ENUM.COLS);
-console.log(table.table(board));
-
 term.on('mouse', function (name, data) {
   // console.log("'mouse' event:", data.x, data.y, data);
-  if (started !== 0) {
+  if (started > 0) {
     if (data.y % 2 === 0 && (data.x + 3) % 4 !== 0 && data.x <= (ENUM.COLS * 4) && data.y <= (ENUM.ROWS * 2)) {
       // const y = readlineSync.questionInt('x koordináta: ');
       clickedField.y = Math.ceil(data.x / 4) - 1;
       // const x = readlineSync.questionInt('y koordináta: ');
       clickedField.x = (data.y / 2) - 1;
-      if (data.code === 0) {
+      if (name === 'MOUSE_LEFT_BUTTON_PRESSED') {
         clickedStatus = 'leftClick';
       }
-      if (data.code === 2) {
+      if (name === 'MOUSE_RIGHT_BUTTON_PRESSED') {
         clickedStatus = 'rightClick';
       }
     }
@@ -146,10 +160,10 @@ term.on('mouse', function (name, data) {
   }
 
   if (started === 0) {
-    if (data.code === 0) {
+    if (name === 'MOUSE_LEFT_BUTTON_PRESSED') {
       clickedStatus = 'leftClick';
     }
-    if (data.code === 2) {
+    if (name === 'MOUSE_RIGHT_BUTTON_PRESSED') {
       clickedStatus = 'rightClick';
     }
     if (data.y % 2 === 0 && (data.x + 3) % 4 !== 0 && data.x <= (ENUM.COLS * 4) && data.y <= (ENUM.ROWS * 2) && clickedStatus === 'leftClick') {
@@ -165,6 +179,41 @@ term.on('mouse', function (name, data) {
       console.log(table.table(board));
       // console.log(data.x, data.y, clickedField.x, clickedField.y);
       started++;
+    }
+  }
+  if (name === 'MOUSE_LEFT_BUTTON_PRESSED') {
+    if (started === -1) {
+      if (data.y >= 13 && data.y <= 15 && data.x >= 7 && data.x <= 16) {
+        // Easy
+        difficulty.diff('easy');
+
+        sleep(500).then(() => {
+          term.clear();
+          map.map(board, ENUM.ROWS, ENUM.COLS);
+          console.log(table.table(board));
+          started++;
+        });
+      }
+      if (data.y >= 13 && data.y <= 14 && data.x >= 51 && data.x <= 69) {
+        // Medium
+        difficulty.diff('medium');
+        sleep(500).then(() => {
+          term.clear();
+          map.map(board, ENUM.ROWS, ENUM.COLS);
+          console.log(table.table(board));
+          started++;
+        });
+      }
+      if (data.y >= 13 && data.y <= 14 && data.x >= 103 && data.x <= 112) {
+        // Hard
+        difficulty.diff('hard');
+        sleep(500).then(() => {
+          term.clear();
+          map.map(board, ENUM.ROWS, ENUM.COLS);
+          console.log(table.table(board));
+          started++;
+        });
+      }
     }
   }
 });

@@ -1,3 +1,5 @@
+const ENUM = require('./enums');
+
 function generateMines (start, mineAmmo) {
   let count = 0;
   const mines = Array(0);
@@ -7,8 +9,8 @@ function generateMines (start, mineAmmo) {
     }
   }
   while (count < mineAmmo) {
-    const x = Math.floor(Math.random() * 10);
-    const y = Math.floor(Math.random() * 10);
+    const x = Math.floor(Math.random() * ENUM.COLS);
+    const y = Math.floor(Math.random() * ENUM.ROWS);
     let include = 0;
     for (let i = 0; i < mines.length; i++) {
       if (mines[i].x === x && mines[i].y === y) {

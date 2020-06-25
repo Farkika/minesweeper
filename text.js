@@ -1,14 +1,14 @@
 const gradient = require('gradient-string');
 
 const minesweeper = () => {
-  console.log(' __  __ _ ');
-  console.log('|  \\/  (_) ');
-  console.log('| \\  / |_ _ __   ___  _____      _____  ___ _ __   ___ _ __ ');
-  console.log('| |\\/| | | \'_ \\ / _ \\/ __\\ \\ /\\ / / _ \\/ _ \\ \'_ \\ / _ \\ \'__|');
-  console.log('| |  | | | | | |  __/\\__  \\ V  V /  __/  __/ |_) |  __/ |   ');
-  console.log('|_|  |_|_|_| |_|\\___||___/ \\_/\\_/ \\___|\\___| .__/ \\___|_|   ');
-  console.log('                                           | | ');
-  console.log('                                           |_| ');
+  console.log();
+  console.log('   _|      _|  _| ');
+  console.log('   _|_|  _|_|      _|_|_|      _|_|      _|_|_|  _|      _|      _|    _|_|      _|_|    _|_|_|       _|_|    _|  _|_| ');
+  console.log('   _|  _|  _|  _|  _|    _|  _|_|_|_|  _|_|      _|      _|      _|  _|_|_|_|  _|_|_|_|  _|    _|   _|_|_|_|  _|_| ');
+  console.log('   _|      _|  _|  _|    _|  _|            _|_|    _|  _|  _|  _|    _|        _|        _|    _|   _|        _|  ');
+  console.log('   _|      _|  _|  _|    _|    _|_|_|  _|_|_|        _|      _|        _|_|_|    _|_|_|  _|_|_|       _|_|_|  _|  ');
+  console.log('                                                                                           _|     ');
+  console.log('                                                                                           _|     ');
 };
 
 const win = () => {
@@ -43,8 +43,20 @@ const lose = () => {
   console.log((gradient([{ r: 255, g: 221, b: 0 }, { r: 255, g: 221, b: 0 }]))(' ..\'.......\'..         ....        .\'\'\'\'........... ..\'\'..  ...\'\'\'.. '));
   console.log((gradient([{ r: 255, g: 234, b: 0 }, { r: 255, g: 234, b: 0 }]))('    ........                         ..         ..    ..       ..'));
 };
+
+const menu = () => {
+  console.log('                                        ');
+  console.log('                                        ');
+  console.log('                                        ');
+  console.log((gradient([{ r: 0, g: 255, b: 0 }, { r: 255, g: 255, b: 0 }, { r: 255, g: 0, b: 0 }]))('       _                                       '));
+  console.log((gradient([{ r: 0, g: 255, b: 0 }, { r: 255, g: 255, b: 0 }, { r: 255, g: 0, b: 0 }]))('      |_ _. _                                     |\\/| _  _|o   ._ _                                  |_| _..__|          '));
+  console.log((gradient([{ r: 0, g: 255, b: 0 }, { r: 255, g: 255, b: 0 }, { r: 255, g: 0, b: 0 }]))('      |_(_|_>\\/                                   |  |(/_(_|||_|| | |                                 | |(_||(_|             '));
+  console.log((gradient([{ r: 0, g: 255, b: 0 }, { r: 255, g: 255, b: 0 }, { r: 255, g: 0, b: 0 }]))('             /                                               '));
+};
+
 module.exports = {
   minesweeper,
   win,
-  lose
+  lose,
+  menu
 };
