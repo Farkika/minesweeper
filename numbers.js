@@ -1,4 +1,5 @@
-const MINE = String.fromCharCode(1758);
+const gradient = require('gradient-string');
+const MINE = gradient([{ r: 255, g: 255, b: 0 }, { r: 255, g: 255, b: 0 }])(String.fromCharCode(1758));
 
 function numbers (arr) {
   for (let i = 0; i < arr.length; i++) {
@@ -30,6 +31,34 @@ function numbers (arr) {
       }
       if (number !== 0 && arr[i][j] !== MINE) {
         arr[i][j] = '' + number + '';
+      }
+    }
+  }
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr[i].length; j++) {
+      if (arr[i][j] === '1') {
+        arr[i][j] = gradient([{ r: 1, g: 0, b: 254 }, { r: 1, g: 0, b: 254 }])('1');
+      }
+      if (arr[i][j] === '2') {
+        arr[i][j] = gradient([{ r: 1, g: 127, b: 1 }, { r: 1, g: 127, b: 1 }])('2');
+      }
+      if (arr[i][j] === '3') {
+        arr[i][j] = gradient([{ r: 254, g: 0, b: 0 }, { r: 254, g: 0, b: 0 }])('3');
+      }
+      if (arr[i][j] === '4') {
+        arr[i][j] = gradient([{ r: 1, g: 0, b: 128 }, { r: 1, g: 0, b: 128 }])('4');
+      }
+      if (arr[i][j] === '5') {
+        arr[i][j] = gradient([{ r: 129, g: 1, b: 2 }, { r: 129, g: 1, b: 2 }])('5');
+      }
+      if (arr[i][j] === '6') {
+        arr[i][j] = gradient([{ r: 0, g: 128, b: 129 }, { r: 0, g: 128, b: 129 }])('6');
+      }
+      if (arr[i][j] === '7') {
+        arr[i][j] = gradient([{ r: 0, g: 0, b: 0 }, { r: 0, g: 0, b: 0 }])('7');
+      }
+      if (arr[i][j] === '8') {
+        arr[i][j] = gradient([{ r: 128, g: 128, b: 128 }, { r: 128, g: 128, b: 128 }])('8');
       }
     }
   }

@@ -2,7 +2,7 @@ const gradient = require('gradient-string');
 
 const FLAG = gradient([{ r: 255, g: 255, b: 0 }, { r: 255, g: 255, b: 0 }])(String.fromCharCode(9872));
 const EMPTY = String.fromCharCode(9633);
-const MINE = String.fromCharCode(1758);
+const MINE = gradient([{ r: 255, g: 255, b: 0 }, { r: 255, g: 255, b: 0 }])(String.fromCharCode(1758));
 // const EMPTY = String.fromCharCode(0);
 const ROWS = 10;
 const COLS = 10;

@@ -124,7 +124,7 @@ term.on('mouse', function (name, data) {
       term.grabInput(false);
       lose = true;
       term.clear();
-      arr[clickedField.x][clickedField.y] = gradient('red', 'red')(ENUM.MINE);
+      arr[clickedField.x][clickedField.y] = gradient('red', 'red')(String.fromCharCode(1758));
       console.log(table.table(arr));
       // console.log(gradient('red')('alma'));
       text.lose();
