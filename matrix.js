@@ -6,7 +6,7 @@ function matrix (arr, value, rows, cols) {
       arr[i][j] = ' ';
       for (let k = 9; k < value.length; k++) {
         if (value[k].x === i && value[k].y === j) {
-          arr[i][j] = '*';
+          arr[i][j] = String.fromCharCode(1758); // ENUM.MINE
         }
       }
     }

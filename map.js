@@ -3,8 +3,7 @@ function map (board, rows, cols) {
     board.push([]);
     board[i].push(new Array(cols));
     for (var j = 0; j < cols; j++) {
-      // Initializes:
-      board[i][j] = String.fromCharCode(68181);
+      board[i][j] = String.fromCharCode(9633); // ENUM.EMPTY
     }
   }
 }

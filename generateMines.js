@@ -6,8 +6,6 @@ function generateMines (start, mineAmmo) {
       mines.push({ x: start.x + i, y: start.y + j });
     }
   }
-  // mines.push(start); // ide kattint először a játékos
-  // console.log('Kezdés: X = ' + (start.y + 1) + ' Y = ' + (start.x + 1));
   while (count < mineAmmo) {
     const x = Math.floor(Math.random() * 10);
     const y = Math.floor(Math.random() * 10);
@@ -15,12 +13,10 @@ function generateMines (start, mineAmmo) {
     for (let i = 0; i < mines.length; i++) {
       if (mines[i].x === x && mines[i].y === y) {
         include++;
-        // console.log(include);
       }
     }
     if (include === 0) {
       mines.push({ x, y });
-      // console.log({ x, y });
       count++;
     }
   }
