@@ -90,7 +90,7 @@ const board = [];
 const clickedStatus = 'leftClick';
 const clickedField = { x: 0, y: 0 };
 // const field = { x: 0, y: 0 };
-/*
+
 term.grabInput({ mouse: 'button' });
 
 term.on('key', function (name, matches, data) {
@@ -98,81 +98,75 @@ term.on('key', function (name, matches, data) {
   if (name === 'CTRL_C') { terminate(); }
 });
 
-term.on('mouse', function (name, data) {
-  console.log("'mouse' event:", data.x, data.y);
-  field.y = data.y;
-  field.x = data.x;
-  term.grabInput(false);
-});
-*/
-let gameOver = false;
 let lose = false;
 term.clear();
 let started = 0;
 
-while (!gameOver) {
-  if (started === 0) {
-    map.map(board, ROWS, COLS);
-    console.log(table.table(board));
-    /*
-      term.grabInput({ mouse: 'button' });
-      // console.log('valami1');
-      term.on('key', function (name, matches, data) {
-        console.log("'key' event:", name);
-        if (name === 'CTRL_C') { terminate(); }
-      });
-      // console.log('valami2');
-      term.on('mouse', function (name, data) {
-        console.log("'mouse' event:", data.x, data.y);
-        clickedField.y = data.y;
-        clickedField.x = data.x;
-        term.grabInput(false);
-      });
-      */
+term.clear();
+map.map(board, ROWS, COLS);
+console.log(table.table(board));
+
+term.on('mouse', function (name, data) {
+  console.log("'mouse' event:", data.x, data.y);
+
+  if (started !== 0) {
     // console.log(field);
-    const y = readlineSync.questionInt('x koordináta: ');
-    clickedField.y = y - 1;
-    const x = readlineSync.questionInt('y koordináta: ');
-    clickedField.x = x - 1;
+  // const y = readlineSync.questionInt('x koordináta: ');
+    if (data.y % 2 === 0 && (data.x + 3) % 4 !== 0 && data.x <= (COLS * 4) && data.y <= (ROWS * 2)) {
+      clickedField.y = Math.ceil(data.x / 4) - 1;
 
+      // const x = readlineSync.questionInt('y koordináta: ');
+      clickedField.x = (data.y / 2) - 1;
+    }
     term.clear();
-
-    const mineAmount = generatemines.generateMines(clickedField, ENUM.mineAmount);
-    matrix.matrix(arr, mineAmount, ENUM.ROWS, ENUM.COLS);
-    numbers.numbers(arr);
     click(board, arr, clickedField);
     console.log(table.table(board));
+    console.log(data.x, data.y, clickedField.x, clickedField.y);
 
-    started++;
-  }
-  // console.log(field);
-  const y = readlineSync.questionInt('x koordináta: ');
-  clickedField.y = y - 1;
-  const x = readlineSync.questionInt('y koordináta: ');
-  clickedField.x = x - 1;
-  term.clear();
-  click(board, arr, clickedField);
-  console.log(table.table(board));
-
-  if (arr[clickedField.x][clickedField.y] === '*') {
-    gameOver = true;
-    lose = true;
-    term.clear();
-    console.log(table.table(arr));
-    console.log('Vesztettél!!!');
-  }
-  let counter = 0;
-  for (let i = 0; i < board.length; i++) {
-    for (let j = 0; j < board[i].length; j++) {
-      if (board[i][j] === EMPTY) {
-        counter++;
+    if (arr[clickedField.x][clickedField.y] === '*') {
+      lose = true;
+      term.clear();
+      console.log(table.table(arr));
+      console.log('Vesztettél!!!');
+      term.grabInput(false);
+    }
+    let counter = 0;
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board[i].length; j++) {
+        if (board[i][j] === EMPTY) {
+          counter++;
+        }
       }
     }
+    if (counter === ENUM.mineAmount && lose === false) {
+      term.clear();
+      console.log(table.table(arr));
+      console.log('Győztél!!!');
+      term.grabInput(false);
+    }
   }
-  if (counter === ENUM.mineAmount && lose === false) {
-    gameOver = true;
-    term.clear();
-    console.log(table.table(arr));
-    console.log('Győztél!!!');
+
+  if (started === 0) {
+    // console.log(field);
+    // const y = readlineSync.questionInt('x koordináta: ');
+    if (data.y % 2 === 0 && (data.x + 3) % 4 !== 0 && data.x <= (COLS * 4) && data.y <= (ROWS * 2)) {
+      clickedField.y = Math.ceil(data.x / 4) - 1;
+
+      // const x = readlineSync.questionInt('y koordináta: ');
+
+      clickedField.x = (data.y / 2) - 1;
+
+      term.clear();
+
+      const mineAmount = generatemines.generateMines(clickedField, ENUM.mineAmount);
+      matrix.matrix(arr, mineAmount, ENUM.ROWS, ENUM.COLS);
+      numbers.numbers(arr);
+      click(board, arr, clickedField);
+      console.log(table.table(board));
+      console.log(data.x, data.y, clickedField.x, clickedField.y);
+      started++;
+    }
   }
-}
+
+  // term.grabInput(false);
+});
