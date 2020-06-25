@@ -1,12 +1,14 @@
 // const readlineSync = require('readline-sync');
 const term = require('terminal-kit').terminal;
 const table = require('table');
+const gradient = require('gradient-string');
 const matrix = require('./matrix');
 const ENUM = require('./enums');
 const generatemines = require('./generateMines');
 // const countmines = require('./countMines');
 const numbers = require('./numbers');
 const map = require('./map');
+const text = require('./text');
 
 function click (board, arr, clicked) {
   if (clicked.x >= 0 && clicked.y >= 0 && clicked.x < ENUM.ROWS && clicked.y < ENUM.COLS) {
@@ -87,6 +89,8 @@ const clickedField = { x: 0, y: 0 };
 let lose = false;
 let started = 0;
 
+// text.minesweeper();
+
 term.grabInput({ mouse: 'button' });
 term.on('key', function (name, matches, data) {
   // console.log("'key' event:", name);
@@ -117,12 +121,13 @@ term.on('mouse', function (name, data) {
     console.log(table.table(board));
     // console.log(data.x, data.y, clickedField.x, clickedField.y);
     if (arr[clickedField.x][clickedField.y] === ENUM.MINE && clickedStatus === 'leftClick') {
+      term.grabInput(false);
       lose = true;
       term.clear();
-      // arr[clickedField.x][clickedField.y] = ENUM.MINE;
+      arr[clickedField.x][clickedField.y] = gradient('red', 'red')(ENUM.MINE);
       console.log(table.table(arr));
-      console.log('Vesztettél!!!');
-      term.grabInput(false);
+      // console.log(gradient('red')('alma'));
+      text.lose();
     }
     let counter = 0;
     for (let i = 0; i < board.length; i++) {
@@ -135,7 +140,7 @@ term.on('mouse', function (name, data) {
     if (counter === ENUM.mineAmount && lose === false) {
       term.clear();
       console.log(table.table(arr));
-      console.log('Győztél!!!');
+      text.win();
       term.grabInput(false);
     }
   }
