@@ -1,35 +1,35 @@
+const ENUM = require('./enums');
 const gradient = require('gradient-string');
-const MINE = gradient([{ r: 255, g: 255, b: 0 }, { r: 255, g: 255, b: 0 }])(String.fromCharCode(1758));
 
 function numbers (arr) {
   for (let i = 0; i < arr.length; i++) {
     for (let j = 0; j < arr[i].length; j++) {
       let number = 0;
-      if (i - 1 >= 0 && j - 1 >= 0 && arr[i - 1][j - 1] === MINE) {
+      if (i - 1 >= 0 && j - 1 >= 0 && arr[i - 1][j - 1] === ENUM.MINE) {
         number++;
       }
-      if (j - 1 >= 0 && arr[i][j - 1] === MINE) {
+      if (j - 1 >= 0 && arr[i][j - 1] === ENUM.MINE) {
         number++;
       }
-      if (j - 1 >= 0 && i + 1 < arr.length && arr[i + 1][j - 1] === MINE) {
+      if (j - 1 >= 0 && i + 1 < arr.length && arr[i + 1][j - 1] === ENUM.MINE) {
         number++;
       }
-      if (i - 1 >= 0 && arr[i - 1][j] === MINE) {
+      if (i - 1 >= 0 && arr[i - 1][j] === ENUM.MINE) {
         number++;
       }
-      if (i + 1 < arr.length && arr[i + 1][j] === MINE) {
+      if (i + 1 < arr.length && arr[i + 1][j] === ENUM.MINE) {
         number++;
       }
-      if (i - 1 >= 0 && arr[i - 1][j + 1] === MINE) {
+      if (i - 1 >= 0 && arr[i - 1][j + 1] === ENUM.MINE) {
         number++;
       }
-      if (arr[i][j + 1] === MINE) {
+      if (arr[i][j + 1] === ENUM.MINE) {
         number++;
       }
-      if (i + 1 < arr.length && arr[i + 1][j + 1] === MINE) {
+      if (i + 1 < arr.length && arr[i + 1][j + 1] === ENUM.MINE) {
         number++;
       }
-      if (number !== 0 && arr[i][j] !== MINE) {
+      if (number !== 0 && arr[i][j] !== ENUM.MINE) {
         arr[i][j] = '' + number + '';
       }
     }

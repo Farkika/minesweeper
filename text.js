@@ -18,8 +18,8 @@ const win = () => {
   console.log(gradient.rainbow('  | . ` | | | |/ _ \\ \'__| __/ _ \\ | |'));
   console.log(gradient.rainbow('  | |\\  | |_| |  __/ |  | ||  __/ |_|'));
   console.log(gradient.rainbow('  |_| \\_|\\__, |\\___|_|   \\__\\___|_(_)'));
-  console.log(gradient.rainbow('          __/ |                      '));
-  console.log(gradient.rainbow('         |___/                       '));
+  console.log((gradient([{ r: 0, g: 0, b: 255 }, { r: 0, g: 0, b: 255 }]))('          __/ |                      '));
+  console.log((gradient([{ r: 0, g: 0, b: 255 }, { r: 0, g: 0, b: 255 }]))('         |___/                       '));
 };
 
 const lose = () => {

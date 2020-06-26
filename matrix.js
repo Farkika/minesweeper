@@ -1,5 +1,4 @@
-const gradient = require('gradient-string');
-const MINE = gradient([{ r: 255, g: 255, b: 0 }, { r: 255, g: 255, b: 0 }])(String.fromCharCode(1758));
+const ENUM = require('./enums');
 
 function matrix (arr, value, rows, cols) {
   for (var i = 0; i < rows; i++) {
@@ -9,7 +8,7 @@ function matrix (arr, value, rows, cols) {
       arr[i][j] = ' ';
       for (let k = 9; k < value.length; k++) {
         if (value[k].x === i && value[k].y === j) {
-          arr[i][j] = MINE; // ENUM.MINE
+          arr[i][j] = ENUM.MINE;
         }
       }
     }
