@@ -10,6 +10,7 @@ const difficulty = require('./difficulty');
 const click = require('./click');
 const terminate = require('./terminate');
 const afterdiff = require('./afterdiff');
+const sleep = require('./sleep');
 
 const arr = [];
 const board = [];
@@ -88,18 +89,24 @@ term.on('mouse', function (name, data) {
     if (started === -1) {
       if (data.y >= 13 && data.y <= 15 && data.x >= 7 && data.x <= 16) { // Easy
         difficulty.diff('easy');
-        afterdiff.afterDiff(board);
-        started++;
+        sleep.sleep(500).then(() => {
+          afterdiff.afterDiff(board);
+          started++;
+        });
       }
       if (data.y >= 13 && data.y <= 14 && data.x >= 51 && data.x <= 69) { // Medium
         difficulty.diff('medium');
-        afterdiff.afterDiff(board);
-        started++;
+        sleep.sleep(500).then(() => {
+          afterdiff.afterDiff(board);
+          started++;
+        });
       }
       if (data.y >= 13 && data.y <= 14 && data.x >= 103 && data.x <= 112) { // Hard
         difficulty.diff('hard');
-        afterdiff.afterDiff(board);
-        started++;
+        sleep.sleep(500).then(() => {
+          afterdiff.afterDiff(board);
+          started++;
+        });
       }
     }
   }
