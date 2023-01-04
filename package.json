@@ -6,7 +6,7 @@
   "dependencies": {
     "gradient-string": "^1.2.0",
     "table": "^5.4.6",
-    "terminal-kit": "^1.35.7"
+    "terminal-kit": "^3.0.0"
   },
   "devDependencies": {},
   "scripts": {
